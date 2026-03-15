@@ -18,7 +18,7 @@ app.use(cors());
 
 
 
-const manufacturer = require("./interfaces/http/test/manufacturer.routes")
+const manufacturer = require("./interfaces/http/manufacturer/manufacturer.routes")
  
 
 
