@@ -14,5 +14,6 @@ connectDB().then(result => {
     })
 
 }).catch(err => {
+    
     console.log("Hata || Veri Tabanına Bağlanılamadı :(", err)
 })
