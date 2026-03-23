@@ -8,3 +8,5 @@
 
 /pinecone_service/requirements.txt
 /pinecone_service/.env
+/pinecone_service/venv
+
