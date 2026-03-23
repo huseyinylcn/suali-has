@@ -4,18 +4,16 @@ const { pool } = require("./../../config/database");
 
 
 exports.question_add = async (data) => {
-    const transaction =await new sql.Transaction(pool());
+    const transaction = await new sql.Transaction(pool());
     try {
         await transaction.begin();
         const result = await new sql.Request(transaction)
             .input("is_active", sql.Bit, data.is_active)
             .input("question_text", sql.NVarChar, data.question_text)
             .input("difficulty_level", sql.TinyInt, data.difficulty_level)
-            .input("source", sql.NVarChar, data.source)
+            .input("source_id", sql.Int, data.source_id)
             .input("objective_codes", sql.NVarChar, data.objective_codes)
             .input("subject_id", sql.Int, data.subject_id)
-            .input("question_image_url", sql.NVarChar, data.question_image_url || null)
-            .input("skill_type", sql.SmallInt, data.skill_type)
             .input("vektor_txt", sql.NVarChar, data.vektor_txt)
 
 
@@ -23,11 +21,9 @@ exports.question_add = async (data) => {
            ([created_at]
            ,[is_active]
            ,[question_text]
-           ,[question_image_url]
            ,[subject_id]
            ,[difficulty_level]
-           ,[source]
-           ,[skill_type]
+           ,[source_id]
            ,[objective_codes]
            ,[vektor_txt])
            OUTPUT INSERTED.question_id
@@ -36,11 +32,9 @@ exports.question_add = async (data) => {
             GETDATE()
            ,@is_active
            ,@question_text
-           ,@question_image_url
            ,@subject_id
            ,@difficulty_level
-           ,@source
-           ,@skill_type
+           ,@source_id
            ,@objective_codes
            ,@vektor_txt)`)
         const newQuestionId = result.recordset[0].question_id;
@@ -53,13 +47,12 @@ exports.question_add = async (data) => {
             await optRequest
                 .input("question_id", sql.UniqueIdentifier, newQuestionId)
                 .input("option_text", sql.NVarChar, option.option_text)
-                .input("option_image_url", sql.NVarChar, option.option_image_url || null)
                 .input("is_correct", sql.Bit, option.is_correct)
                 .query(`
             INSERT INTO [dbo].[question_options] 
-            (question_id, option_text, option_image_url, is_correct)
+            (question_id, option_text, is_correct)
             VALUES 
-            (@question_id, @option_text, @option_image_url, @is_correct)
+            (@question_id, @option_text, @is_correct)
         `);
         }
 
@@ -114,6 +107,22 @@ exports.question_add = async (data) => {
         `);
         }
 
+
+            for (const skillTypeId of data.skill_types) {
+            const skillTypeRequest = new sql.Request(transaction);
+            await skillTypeRequest
+                .input("question_id", sql.UniqueIdentifier, newQuestionId)
+                .input("skill_type_id", sql.Int, skillTypeId)
+                .query(`
+                INSERT INTO [dbo].[skill_types_mapping]
+                    ([question_id]
+                    ,[skill_type_id])
+                VALUES
+                    (@question_id
+                    ,@skill_type_id)
+        `);
+        }
+
         await transaction.commit();
         return { question_id: newQuestionId };
 
@@ -125,5 +134,106 @@ exports.question_add = async (data) => {
     }
 
 }
+
+
+
+exports.subjects_get = async (data) => {
+
+    try {
+        const request = new sql.Request(pool());
+
+        const result = await request.query(`SELECT * FROM subjects`)
+        return result.recordset
+
+
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw error;
+    }
+
+}
+
+
+
+exports.exam_types_get = async (data) => {
+
+    try {
+        const request = new sql.Request(pool());
+
+        const result = await request.query(`SELECT * FROM exam_types`)
+        return result.recordset
+
+
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw error;
+    }
+
+}
+
+
+exports.sub_topics_get = async (data) => {
+
+    try {
+        const request = new sql.Request(pool());
+
+        const result = await request
+        .input('subject_id',sql.Int,data.subject_id)
+        .query(`SELECT * FROM sub_topics WHERE subject_id = @subject_id`)
+        return result.recordset
+
+
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw error;
+    }
+
+}
+
+
+exports.micro_sub_topics = async (data) => {
+
+    try {
+        const request = new sql.Request(pool());
+
+        const result = await request
+        .input('sub_topic_id',sql.Int,data.sub_topic_id)
+        .query(`SELECT * FROM micro_sub_topics WHERE sub_topic_id = @sub_topic_id`)
+        return result.recordset
+
+
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw error;
+    }
+
+}
+
+
+
+exports.skill_types_get = async (data) => {
+
+    try {
+        const request = new sql.Request(pool());
+
+        const result = await request
+        .query(`SELECT * FROM skill_type`)
+        return result.recordset
+
+
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw error;
+    }
+
+}
+
+
+
+
+
+
+
+
 
 

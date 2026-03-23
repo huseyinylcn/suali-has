@@ -1,6 +1,7 @@
 ﻿require("dotenv").config()
 const connectDB = require("./src/config/database")
 const app = require("./src/app")
+const s3Client = require("./src/config/r2");
 
 
 
@@ -14,6 +15,6 @@ connectDB().then(result => {
     })
 
 }).catch(err => {
-    
+
     console.log("Hata || Veri Tabanına Bağlanılamadı :(", err)
 })

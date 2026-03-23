@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GitHub-ish palette via CSS variables */
+:root {
+  --gh-navbar: #ffffff;
+  --gh-navbar-fg: #24292f;
+  --gh-navbar-fg-muted: #57606a;
+  --gh-navbar-border: #d0d7de;
+  --gh-canvas: #ffffff;
+  --gh-canvas-subtle: #f6f8fa;
+  --gh-fg: #24292f;
+  --gh-fg-muted: #57606a;
+  --gh-border: #d0d7de;
+  --gh-accent: #0969da;
+  --gh-primary: #0969da;
+  --gh-accent-fg: #ffffff;
+  --gh-danger: #cf222e;
+  --gh-success: #1a7f37;
+  --gh-attention: #9a6700;
+}
+
+html.dark {
+  --gh-navbar: #010409;
+  --gh-navbar-fg: #f0f6fc;
+  --gh-navbar-fg-muted: #7d8590;
+  --gh-navbar-border: #30363d;
+  --gh-canvas: #0d1117;
+  --gh-canvas-subtle: #161b22;
+  --gh-fg: #c9d1d9;
+  --gh-fg-muted: #8b949e;
+  --gh-border: #30363d;
+  --gh-accent: #2f81f7;
+  --gh-primary: #3fb950;
+  --gh-accent-fg: #ffffff;
+  --gh-danger: #f85149;
+  --gh-success: #3fb950;
+  --gh-attention: #d29922;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--gh-canvas);
+  color: var(--gh-fg);
+}
+
+/* Form controls - GitHub-like */
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--gh-primary);
+}
+
+select {
+  background-color: var(--gh-canvas);
+  color: var(--gh-fg);
+}
+
+/* ── Scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gh-border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--gh-border);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gh-fg-muted);
+}
+
+/* ── Difficulty slider ── */
+.difficulty-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+}
+.difficulty-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gh-canvas);
+  border: 2px solid var(--thumb-color, #888);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.difficulty-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gh-canvas);
+  border: 2px solid var(--thumb-color, #888);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+

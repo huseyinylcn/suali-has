@@ -1,0 +1,187 @@
+{
+  "info": {
+    "_postman_id": "c3b415d3-265b-4a36-a224-442238cc91ef",
+    "name": "sualihas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26695562",
+    "_collection_link": "https://go.postman.co/collection/26695562-c3b415d3-265b-4a36-a224-442238cc91ef?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "manufacturer",
+      "item": [
+
+        {
+          "name": "Generate Vektor Text",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"questionData\": {\r\n    \"ders\": \"Matematik\",\r\n    \"konu\": \"Türev\",\r\n    \"soru_metni\": \"Yandaki f(x) in grafiğine göre aşağıdakilerden hangisi doğrudur?\",\r\n    \"secenekler\": \"A) x = -3 de tanımsızdır ve limiti yoktur. B) x = 1 de tanımlı ve limiti vardır. C) x = 3 de süreklidir ama türevli değildir. D) x = -7 de tanımlı ve türevlidir. E) Fonksiyonunun limitinin olduğu süreksiz bir noktası yoktur. \",\r\n    \"anaGorselUrl\": \"https://test.furkanotoelektronik.com.tr/question/1773891619066-2c1402854fb9aa27.png\", \r\n    \"secenekGorselleriUrls\": []\r\n  },\r\n  \"history\": [],\r\n  \"userInstruction\": \"Bu soru için vektör metnini oluştur.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/manufacturer/v1/generate-vektor-text",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "manufacturer",
+                "v1",
+                "generate-vektor-text"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Generate Vektor Text",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"questionData\": null,\r\n  \"history\": [\r\n    {\r\n      \"role\": \"user\",\r\n      \"content\": \"İşte soru verisi:\\n{\\\"ders\\\": \\\"Türkçe\\\", \\\"konu\\\": \\\"Sözcükte Anlam\\\", \\\"alt_konu\\\": \\\"Zıt (Karşıt) Anlamlı Sözcükler, Çok Anlamlılık (Bağlama Göre Anlam Kazanma)\\\", \\\"soru_metni\\\": \\\"Her çeşit yeni deneyim ve duruma açık bir adamdı bu. Aşağıdakilerden hangisinde 'kapalı' sözcüğü bu cümledeki altı çizili kelimenin anlamca karşıtıdır?\\\", \\\"imageUrl\\\": \\\"\\\", \\\"secenekler\\\": \\\"A) Gözleri kapalı, dudakları ise hafif aralık bir şekilde uzanıyordu. B) Meclis, gerektiği durumlarda kapalı oturumlar da yapabilir. C) Böylesine cesaret gerektirecek hareketlere kapalı bir yapım var. D) Adana’nın kış aylarında kapalı günleri de olabiliyor. E) Bu sandık üç yıldır böyle kapalı duruyor.\\\"}\\n\\nTalimat: Bu soru için vektör metnini oluştur.\"\r\n    },\r\n    {\r\n      \"role\": \"assistant\",\r\n      \"content\": \"Zıt anlamlı sözcükler kapalı açık deneyim durum anlam karşıtlık\"\r\n    }\r\n    \r\n  ],\r\n  \"userInstruction\": \"daha detaylı yaz\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/manufacturer/v1/generate-vektor-text",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "manufacturer",
+                    "v1",
+                    "generate-vektor-text"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "135"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"87-2LNqbcVY9GEsuD/vnU5eI9fc3NM\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 19 Mar 2026 04:46:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"result\": {\n        \"success\": true,\n        \"vectorText\": \"Zıt anlamlı sözcükler kapalı açık deneyim durum karşıt anlam bağlam\"\n    },\n    \"success\": true\n}"
+            },
+            {
+              "name": "Generate Vektor Text",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"questionData\": {\r\n    \"ders\": \"Matematik\",\r\n    \"konu\": \"Türev\",\r\n    \"soru_metni\": \"Yandaki f(x) in grafiğine göre aşağıdakilerden hangisi doğrudur?\",\r\n    \"secenekler\": \"A) x = -3 de tanımsızdır ve limiti yoktur. B) x = 1 de tanımlı ve limiti vardır. C) x = 3 de süreklidir ama türevli değildir. D) x = -7 de tanımlı ve türevlidir. E) Fonksiyonunun limitinin olduğu süreksiz bir noktası yoktur. \",\r\n    \"anaGorselUrl\": \"https://test.furkanotoelektronik.com.tr/question/1773891619066-2c1402854fb9aa27.png\", \r\n    \"secenekGorselleriUrls\": []\r\n  },\r\n  \"history\": [],\r\n  \"userInstruction\": \"Bu soru için vektör metnini oluştur.\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3000/manufacturer/v1/generate-vektor-text",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "manufacturer",
+                    "v1",
+                    "generate-vektor-text"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "113"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"71-kdr27HEhC2udmLdm8TSKw+2F1TY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 19 Mar 2026 04:56:02 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"result\": {\n        \"success\": true,\n        \"vectorText\": \"Türev süreklilik limit tanımsızlık grafiği analiz\"\n    },\n    \"success\": true\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
