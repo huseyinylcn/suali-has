@@ -8,10 +8,14 @@ export const subjectSchema = z.object({
   subject_name: z.string()
 });
 
+export type Subject = z.infer<typeof subjectSchema>;
+
 export const examTypeSchema = z.object({
   exam_type_id: z.number(),
   exam_type_name: z.string()
 });
+
+export type ExamType = z.infer<typeof examTypeSchema>;
 
 export const subTopicSchema = z.object({
   sub_topic_id: z.number(),
@@ -29,6 +33,8 @@ export const skillTypeSchema = z.object({
   skill_type_id: z.number(),
   skill_type_name: z.string()
 });
+
+export type SkillType = z.infer<typeof skillTypeSchema>;
 
 const subjectsGetResponseSchema = z.object({
   result: z.array(subjectSchema),
@@ -89,14 +95,14 @@ export async function examTypesGet() {
   return examTypesGetResponseSchema.parse(data).result;
 }
 
-export async function subTopicsGet(subjectId: number) {
+export async function subTopicsGet(subjectId: number | null) {
   const { data } = await apiClient.get('/manufacturer/v1/question/sub/topics/get', {
     params: { subject_id: subjectId }
   });
   return subTopicsGetResponseSchema.parse(data).result;
 }
 
-export async function microSubTopicsGet(subTopicId: number) {
+export async function microSubTopicsGet(subTopicId: number | null) {
   const { data } = await apiClient.get('/manufacturer/v1/micro/sub/topics', {
     params: { sub_topic_id: subTopicId }
   });

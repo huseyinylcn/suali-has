@@ -1,0 +1,178 @@
+{
+  "info": {
+    "_postman_id": "c3b415d3-265b-4a36-a224-442238cc91ef",
+    "name": "sualihas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26695562",
+    "_collection_link": "https://go.postman.co/collection/26695562-c3b415d3-265b-4a36-a224-442238cc91ef?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "manufacturer",
+      "item": [
+
+        {
+          "name": "Filtered Data",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/manufacturer/v1/filtered-data?subject_id=[]&sub_topic_id=[]&micro_sub_topic_id=[]&beginning=2025-12-12&finish=2026-12-12&amount=5&exam_type_id=[]&skill_type_id=[]",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "manufacturer",
+                "v1",
+                "filtered-data"
+              ],
+              "query": [
+                {
+                  "key": "subject_id",
+                  "value": "[]",
+                  "type": "text"
+                },
+                {
+                  "key": "sub_topic_id",
+                  "value": "[]",
+                  "type": "text"
+                },
+                {
+                  "key": "micro_sub_topic_id",
+                  "value": "[]",
+                  "type": "text"
+                },
+                {
+                  "key": "beginning",
+                  "value": "2025-12-12",
+                  "type": "text"
+                },
+                {
+                  "key": "finish",
+                  "value": "2026-12-12",
+                  "type": "text"
+                },
+                {
+                  "key": "amount",
+                  "value": "5",
+                  "type": "text"
+                },
+                {
+                  "key": "exam_type_id",
+                  "value": "[]",
+                  "type": "text"
+                },
+                {
+                  "key": "skill_type_id",
+                  "value": "[]",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Filtered Data",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:3000/manufacturer/v1/filtered-data?subject_id=[]&sub_topic_id=[]&micro_sub_topic_id=[]&beginning=2025-12-12&finish=2026-12-12&amount=5&exam_type_id=[]&skill_type_id=[]",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3000",
+                  "path": [
+                    "manufacturer",
+                    "v1",
+                    "filtered-data"
+                  ],
+                  "query": [
+                    {
+                      "key": "subject_id",
+                      "value": "[]"
+                    },
+                    {
+                      "key": "sub_topic_id",
+                      "value": "[]"
+                    },
+                    {
+                      "key": "micro_sub_topic_id",
+                      "value": "[]"
+                    },
+                    {
+                      "key": "beginning",
+                      "value": "2025-12-12"
+                    },
+                    {
+                      "key": "finish",
+                      "value": "2026-12-12"
+                    },
+                    {
+                      "key": "amount",
+                      "value": "5"
+                    },
+                    {
+                      "key": "exam_type_id",
+                      "value": "[]"
+                    },
+                    {
+                      "key": "skill_type_id",
+                      "value": "[]"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "2098"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"832-UeVv53smIdGXeclISQba1R35QgQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 06:37:16 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"result\": [\n        {\n            \"subject_name\": \"Matematik\",\n            \"question_id\": \"ACB7E986-A826-F111-AC0B-64497DC45F2B\",\n            \"created_at\": \"2026-03-23T14:07:49.500Z\",\n            \"is_active\": true,\n            \"question_text\": \"example question text\",\n            \"subject_id\": 1,\n            \"difficulty_level\": 5,\n            \"source_id\": 1,\n            \"objective_codes\": \"\",\n            \"vektor_txt\": \"example vektor txt\",\n            \"question_options\": [\n                {\n                    \"option_id\": \"ADB7E986-A826-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": true\n                },\n                {\n                    \"option_id\": \"AEB7E986-A826-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                },\n                {\n                    \"option_id\": \"AFB7E986-A826-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                },\n                {\n                    \"option_id\": \"B0B7E986-A826-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                }\n            ],\n            \"sub_topics\": [\n                {\n                    \"sub_topic_id\": 1,\n                    \"sub_topic_name\": \"Türev\"\n                }\n            ],\n            \"micro_sub_topics\": [\n                {\n                    \"micro_sub_topic_id\": 1,\n                    \"micro_sub_topic_name\": \"Grafik\"\n                }\n            ],\n            \"exam_types\": [\n                {\n                    \"exam_type_id\": 1,\n                    \"exam_type_name\": \"yks\"\n                }\n            ],\n            \"skill_type\": [\n                {\n                    \"skill_type_id\": 1,\n                    \"skill_type_name\": \"Beceri\"\n                }\n            ],\n            \"coords\": [\n                8.247974395751953,\n                7.249269962310791,\n                7.890113830566406\n            ]\n        },\n        {\n            \"subject_name\": \"Matematik\",\n            \"question_id\": \"212D9205-AD26-F111-AC0B-64497DC45F2B\",\n            \"created_at\": \"2026-03-23T14:39:59.983Z\",\n            \"is_active\": true,\n            \"question_text\": \"example question text\",\n            \"subject_id\": 1,\n            \"difficulty_level\": 5,\n            \"source_id\": 1,\n            \"objective_codes\": \"\",\n            \"vektor_txt\": \"example vektor txt\",\n            \"question_options\": [\n                {\n                    \"option_id\": \"222D9205-AD26-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": true\n                },\n                {\n                    \"option_id\": \"232D9205-AD26-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                },\n                {\n                    \"option_id\": \"242D9205-AD26-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                },\n                {\n                    \"option_id\": \"252D9205-AD26-F111-AC0B-64497DC45F2B\",\n                    \"option_text\": \"example\",\n                    \"is_correct\": false\n                }\n            ],\n            \"sub_topics\": [\n                {\n                    \"sub_topic_id\": 1,\n                    \"sub_topic_name\": \"Türev\"\n                },\n                {\n                    \"sub_topic_id\": 1009,\n                    \"sub_topic_name\": \"Problemler\"\n                }\n            ],\n            \"micro_sub_topics\": [\n                {\n                    \"micro_sub_topic_id\": 1,\n                    \"micro_sub_topic_name\": \"Grafik\"\n                }\n            ],\n            \"exam_types\": [\n                {\n                    \"exam_type_id\": 1,\n                    \"exam_type_name\": \"yks\"\n                }\n            ],\n            \"skill_type\": [\n                {\n                    \"skill_type_id\": 1,\n                    \"skill_type_name\": \"Beceri\"\n                }\n            ],\n            \"coords\": [\n                7.871647834777832,\n                7.94495964050293,\n                8.457335472106934\n            ]\n        }\n    ],\n    \"success\": true\n}"
+            }
+          ]
+        }
+      ]
+    }
+
+  ]
+}

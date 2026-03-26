@@ -6,6 +6,10 @@ const { micro_sub_topics } = require("../../../use-case/manufacturer/micro_sub_t
 const { skill_types_get } = require("../../../use-case/manufacturer/skill_types.get")
 const { generate_vector_text } = require("../../../use-case/manufacturer/generate_vector_text")
 const { mathpix_translate } = require("../../../use-case/manufacturer/mathpix_translate")
+const { filtered_data } = require("../../../use-case/manufacturer/filtered_data.get")
+const { similar_question } = require("../../../use-case/manufacturer/similar_question.get")
+
+
 const axios = require('axios');
 
 const openai = require('../../../config/openaiClient');
@@ -64,7 +68,7 @@ exports.option_image_add = async (req, res, next) => {
 
 exports.subjects_get = async (req, res, next) => {
  try {
-    const result = await subjects_get(req.body, { manufacturer_repositoy })
+    const result = await subjects_get(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -74,7 +78,7 @@ exports.subjects_get = async (req, res, next) => {
 
 exports.exam_types_get = async (req, res, next) => {
  try {
-    const result = await exam_types_get(req.body, { manufacturer_repositoy })
+    const result = await exam_types_get(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -85,7 +89,8 @@ exports.exam_types_get = async (req, res, next) => {
 
 exports.sub_topics_get = async (req, res, next) => {
  try {
-    const result = await sub_topics_get(req.body, { manufacturer_repositoy })
+
+    const result = await sub_topics_get(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -95,7 +100,7 @@ exports.sub_topics_get = async (req, res, next) => {
 
 exports.micro_sub_topics = async (req, res, next) => {
  try {
-    const result = await micro_sub_topics(req.body, { manufacturer_repositoy })
+    const result = await micro_sub_topics(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -106,7 +111,7 @@ exports.micro_sub_topics = async (req, res, next) => {
 
 exports.skill_types_get = async (req, res, next) => {
  try {
-    const result = await skill_types_get(req.body, { manufacturer_repositoy })
+    const result = await skill_types_get(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -134,6 +139,32 @@ exports.mathpix_translate = async (req, res, next) => {
     res.status(400).json({ err: err.message })
   }
 }
+
+
+
+exports.filtered_data = async (req, res, next) => {
+ try {
+    const result = await filtered_data(req.query, { manufacturer_repositoy,axios })
+    res.status(200).json({ result: result,success:true })
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({ err: err.message })
+  }
+}
+
+
+
+exports.similar_question = async (req, res, next) => {
+ try {
+    const result = await similar_question(req.body, { manufacturer_repositoy,axios })
+    res.status(200).json({ result: result,success:true })
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({ err: err.message })
+  }
+}
+
+
 
 
 

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import '@uiw/react-markdown-preview/markdown.css';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import { useColorMode } from '../hooks/useColorMode';
 import { cn } from '../utils/cn';
 
 export type QuestionBookOption = {
@@ -18,20 +18,6 @@ type QuestionBookPreviewProps = {
   options: QuestionBookOption[];
   className?: string;
 };
-
-function useColorMode(): 'dark' | 'light' {
-  const [mode, setMode] = useState<'dark' | 'light'>(() =>
-    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-  );
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setMode(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-    });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    return () => observer.disconnect();
-  }, []);
-  return mode;
-}
 
 const mdPlugins = {
   remarkPlugins: [remarkMath],

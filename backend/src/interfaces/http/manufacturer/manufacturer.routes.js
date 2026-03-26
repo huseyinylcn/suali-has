@@ -16,14 +16,17 @@ router.post("/v1/question/image/add", r2Upload("question") ,controller.question_
 router.post("/v1/question/option/image/add", r2Upload("option") ,controller.option_image_add)
 
 router.get("/v1/subjects/get" ,controller.subjects_get)
-router.get("/v1/question/sub/topics/get",validation(querySchema.subTopicsSchema) ,controller.sub_topics_get)
+router.get("/v1/question/sub/topics/get" ,controller.sub_topics_get)
 router.get("/v1/exam/types/get" ,controller.exam_types_get)
 router.get("/v1/skill/types/get" ,controller.skill_types_get)
 
-router.get("/v1/micro/sub/topics",validation(querySchema.microSubTopicsSchema) ,controller.micro_sub_topics)
+router.get("/v1/micro/sub/topics",controller.micro_sub_topics)
 
 router.post("/v1/generate-vektor-text",controller.generate_vector_text)
 router.post("/v1/mathpix-translate",validation(querySchema.mathpix_translateSchema),controller.mathpix_translate)
+router.get("/v1/filtered-data",controller.filtered_data)
+router.post("/v1/similar-question",controller.similar_question)
+
 
 
 

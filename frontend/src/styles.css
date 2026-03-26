@@ -19,6 +19,8 @@
   --gh-danger: #cf222e;
   --gh-success: #1a7f37;
   --gh-attention: #9a6700;
+  /* GitHub repo alt sekmeleri — aktif sekme alt çizgisi */
+  --gh-tab-underline: #f78166;
 }
 
 html.dark {
@@ -37,6 +39,7 @@ html.dark {
   --gh-danger: #f85149;
   --gh-success: #3fb950;
   --gh-attention: #d29922;
+  --gh-tab-underline: #f78166;
 }
 
 html,
