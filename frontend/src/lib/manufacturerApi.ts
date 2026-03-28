@@ -95,16 +95,22 @@ export async function examTypesGet() {
   return examTypesGetResponseSchema.parse(data).result;
 }
 
-export async function subTopicsGet(subjectId: number | null) {
+/** Backend `subject_id` için JSON dizi string bekliyor (örn. `[1,2]`) */
+export async function subTopicsGet(subjectIds: number[]) {
+  const params =
+    subjectIds.length === 0 ? {} : { subject_id: JSON.stringify(subjectIds) };
   const { data } = await apiClient.get('/manufacturer/v1/question/sub/topics/get', {
-    params: { subject_id: subjectId }
+    params
   });
   return subTopicsGetResponseSchema.parse(data).result;
 }
 
-export async function microSubTopicsGet(subTopicId: number | null) {
+/** Backend `sub_topic_id` için JSON dizi string bekliyor */
+export async function microSubTopicsGet(subTopicIds: number[]) {
+  const params =
+    subTopicIds.length === 0 ? {} : { sub_topic_id: JSON.stringify(subTopicIds) };
   const { data } = await apiClient.get('/manufacturer/v1/micro/sub/topics', {
-    params: { sub_topic_id: subTopicId }
+    params
   });
   return microSubTopicsGetResponseSchema.parse(data).result;
 }

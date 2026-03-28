@@ -176,6 +176,8 @@ function GhFilterMultiSelect({
   options,
   icon: Icon,
   stretch,
+  disabled,
+  disabledPlaceholder,
 }: {
   menuKey: string;
   openMenuKey: string | null;
@@ -187,9 +189,17 @@ function GhFilterMultiSelect({
   icon: LucideIcon;
   /** Modal vb. için tetikleyiciyi satır genişliğine yay */
   stretch?: boolean;
+  disabled?: boolean;
+  disabledPlaceholder?: string;
 }) {
-  const open = openMenuKey === menuKey;
+  const open = !disabled && openMenuKey === menuKey;
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (disabled && openMenuKey === menuKey) {
+      setOpenMenuKey(null);
+    }
+  }, [disabled, openMenuKey, menuKey, setOpenMenuKey]);
 
   useEffect(() => {
     if (!open) return;
@@ -203,11 +213,13 @@ function GhFilterMultiSelect({
   }, [open, setOpenMenuKey]);
 
   const summary =
-    values.length === 0
-      ? "Hepsi"
-      : values.length === 1
-        ? (options.find((o) => o.value === values[0])?.label ?? values[0])
-        : `${values.length} seçili`;
+    disabled && values.length === 0
+      ? (disabledPlaceholder ?? "—")
+      : values.length === 0
+        ? "Hepsi"
+        : values.length === 1
+          ? (options.find((o) => o.value === values[0])?.label ?? values[0])
+          : `${values.length} seçili`;
 
   function toggleOption(value: string) {
     if (values.includes(value)) {
@@ -224,14 +236,20 @@ function GhFilterMultiSelect({
     >
       <button
         type="button"
+        disabled={disabled}
         aria-label={ariaLabel}
         aria-expanded={open}
         aria-haspopup="listbox"
-        onClick={() => setOpenMenuKey(open ? null : menuKey)}
+        onClick={() => {
+          if (disabled) return;
+          setOpenMenuKey(open ? null : menuKey);
+        }}
         className={cn(
           "relative inline-flex h-8 min-w-[8.5rem] max-w-[14rem] items-center rounded-md border border-[var(--gh-border)] bg-[var(--gh-canvas-subtle)] py-0 pl-9 pr-8 text-left shadow-sm",
           stretch && "w-full max-w-none",
           "text-sm font-semibold leading-none text-[var(--gh-fg)] transition-colors hover:bg-[var(--gh-canvas)]",
+          disabled &&
+            "cursor-not-allowed opacity-60 hover:bg-[var(--gh-canvas-subtle)]",
           open &&
             "border-[var(--gh-accent)] ring-2 ring-[var(--gh-accent)] ring-offset-2 ring-offset-[var(--gh-canvas)]",
         )}
@@ -671,10 +689,22 @@ export function QuestionsPage() {
   }, []);
 
   useEffect(() => {
+    const ids = subject_id
+      .map(Number)
+      .filter((n) => Number.isFinite(n));
+    if (ids.length === 0) {
+      setSubTopics([]);
+      set_sub_topic_id([]);
+      set_micro_sub_topic_id([]);
+      return;
+    }
     let cancelled = false;
-    subTopicsGet(null)
+    subTopicsGet(ids)
       .then((list) => {
-        if (!cancelled) setSubTopics(list);
+        if (cancelled) return;
+        setSubTopics(list);
+        const allowed = new Set(list.map((s) => String(s.sub_topic_id)));
+        set_sub_topic_id((prev) => prev.filter((id) => allowed.has(id)));
       })
       .catch(() => {
         if (!cancelled) setSubTopics([]);
@@ -682,13 +712,26 @@ export function QuestionsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [subject_id]);
 
   useEffect(() => {
+    const ids = sub_topic_id
+      .map(Number)
+      .filter((n) => Number.isFinite(n));
+    if (ids.length === 0) {
+      setMicroSubTopics([]);
+      set_micro_sub_topic_id([]);
+      return;
+    }
     let cancelled = false;
-    microSubTopicsGet(null)
+    microSubTopicsGet(ids)
       .then((list) => {
-        if (!cancelled) setMicroSubTopics(list);
+        if (cancelled) return;
+        setMicroSubTopics(list);
+        const allowed = new Set(
+          list.map((m) => String(m.micro_sub_topic_id)),
+        );
+        set_micro_sub_topic_id((prev) => prev.filter((id) => allowed.has(id)));
       })
       .catch(() => {
         if (!cancelled) setMicroSubTopics([]);
@@ -696,7 +739,7 @@ export function QuestionsPage() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [sub_topic_id]);
 
   useEffect(() => {
     let cancelled = false;
@@ -797,6 +840,8 @@ export function QuestionsPage() {
                     onChange={set_sub_topic_id}
                     options={sub_topic_id_options}
                     icon={ListTree}
+                    disabled={subject_id.length === 0}
+                    disabledPlaceholder="Önce ders seçin"
                   />
                 </LabeledField>
                 <LabeledField label="Alt konu">
@@ -809,6 +854,8 @@ export function QuestionsPage() {
                     onChange={set_micro_sub_topic_id}
                     options={micro_sub_topic_id_options}
                     icon={Layers2}
+                    disabled={sub_topic_id.length === 0}
+                    disabledPlaceholder="Önce konu seçin"
                   />
                 </LabeledField>
                 <div className="flex flex-col gap-1 self-end">

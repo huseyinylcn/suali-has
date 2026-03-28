@@ -386,27 +386,72 @@ export function QuestionAddPage() {
 
   const subTopicsQ = useQuery({
     queryKey: ['subTopics', subjectId],
-    queryFn: () => subTopicsGet(subjectId),
+    queryFn: () => subTopicsGet([subjectId as number]),
     enabled: Number.isFinite(subjectId) && subjectId > 0
   });
 
-  const microSubTopicsTargetId = useMemo(() => selectedSubTopics?.[0] ?? 0, [selectedSubTopics]);
+  const subTopicIdsForMicro = useMemo(
+    () => (selectedSubTopics ?? []).filter((id) => Number.isFinite(id) && id > 0),
+    [selectedSubTopics]
+  );
+
+  const microSubTopicQueryKey = useMemo(
+    () => [...subTopicIdsForMicro].sort((a, b) => a - b).join(','),
+    [subTopicIdsForMicro]
+  );
+
   const microSubTopicsQ = useQuery({
-    queryKey: ['microSubTopics', microSubTopicsTargetId],
-    queryFn: () => microSubTopicsGet(microSubTopicsTargetId),
-    enabled: Number.isFinite(microSubTopicsTargetId) && microSubTopicsTargetId > 0
+    queryKey: ['microSubTopics', microSubTopicQueryKey],
+    queryFn: () => microSubTopicsGet(subTopicIdsForMicro),
+    enabled: subTopicIdsForMicro.length > 0
   });
 
+  const prevSubjectIdRef = useRef<number | null>(null);
   useEffect(() => {
-    // when subject changes, reset sub topics + micro selections
-    form.setValue('sub_topics', []);
-    form.setValue('micro_sub_topics', []);
-  }, [subjectId]); // eslint-disable-line react-hooks/exhaustive-deps
+    const sid = Number(subjectId) || 0;
+    if (prevSubjectIdRef.current === null) {
+      prevSubjectIdRef.current = sid;
+      return;
+    }
+    if (prevSubjectIdRef.current !== sid) {
+      prevSubjectIdRef.current = sid;
+      form.setValue('sub_topics', []);
+      form.setValue('micro_sub_topics', []);
+    }
+  }, [subjectId, form]);
 
   useEffect(() => {
-    // when sub topics changes, reset micro selections
-    form.setValue('micro_sub_topics', []);
-  }, [microSubTopicsTargetId]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (microSubTopicQueryKey === '') {
+      form.setValue('micro_sub_topics', []);
+    }
+  }, [microSubTopicQueryKey, form]);
+
+  useEffect(() => {
+    const list = subTopicsQ.data;
+    const sid = Number(subjectId) || 0;
+    if (!list || sid <= 0) return;
+    const allowed = new Set(list.map((s) => s.sub_topic_id));
+    const cur = form.getValues('sub_topics') ?? [];
+    const next = cur.filter((id) => allowed.has(id));
+    if (next.length !== cur.length) {
+      form.setValue('sub_topics', next, { shouldValidate: true });
+    }
+  }, [subTopicsQ.data, subjectId, form]);
+
+  useEffect(() => {
+    const data = microSubTopicsQ.data;
+    if (data === undefined) return;
+    if (data.length === 0) {
+      form.setValue('micro_sub_topics', [], { shouldValidate: true });
+      return;
+    }
+    const allowed = new Set(data.map((m) => m.micro_sub_topic_id));
+    const cur = form.getValues('micro_sub_topics') ?? [];
+    const next = cur.filter((id) => allowed.has(id));
+    if (next.length !== cur.length) {
+      form.setValue('micro_sub_topics', next, { shouldValidate: true });
+    }
+  }, [microSubTopicsQ.data, form]);
 
   // localStorage'a otomatik kaydet (debounced — her 1 saniyede bir)
   useEffect(() => {
@@ -738,8 +783,9 @@ export function QuestionAddPage() {
                     )}
                     value={subjectId || 0}
                     onChange={(e) => form.setValue('subject_id', Number(e.target.value), { shouldValidate: true })}
+                    aria-label="Ders"
                   >
-                    <option value={0}>Seç…</option>
+                    <option value={0}>Ders seç…</option>
                     {(subjectsQ.data ?? []).map((s) => (
                       <option key={s.subject_id} value={s.subject_id}>
                         {s.subject_name}
@@ -752,26 +798,36 @@ export function QuestionAddPage() {
                 </label>
 
                 <MultiPicker
-                  label="Alt Konular"
-                  placeholder={subjectId <= 0 ? 'Önce ders seç…' : 'Alt konu seç…'}
+                  label="Konu"
+                  placeholder={
+                    subjectId <= 0 ? 'Önce ders seçin' : 'Konu seç…'
+                  }
                   options={(subTopicsQ.data ?? []).map((st) => ({ id: st.sub_topic_id, name: st.sub_topic_name }))}
                   loading={subTopicsQ.isLoading}
                   disabled={subjectId <= 0}
                   value={form.watch('sub_topics')}
                   onChange={(ids) => form.setValue('sub_topics', ids, { shouldValidate: true })}
                   error={form.formState.errors.sub_topics?.message as string | undefined}
-                  hint="Micro alt konular ilk seçime göre gelir."
+                  hint="Liste, seçtiğiniz derse göre sunucudan yüklenir."
                 />
 
                 <MultiPicker
-                  label="Micro Alt Konular"
-                  placeholder={microSubTopicsTargetId <= 0 ? 'Alt konu seçince listelenir…' : 'Micro alt konu seç…'}
-                  options={(microSubTopicsQ.data ?? []).map((mst) => ({ id: mst.micro_sub_topic_id, name: mst.micro_sub_topic_name }))}
+                  label="Alt konu"
+                  placeholder={
+                    subTopicIdsForMicro.length === 0
+                      ? 'Önce konu seçin'
+                      : 'Alt konu seç…'
+                  }
+                  options={(microSubTopicsQ.data ?? []).map((mst) => ({
+                    id: mst.micro_sub_topic_id,
+                    name: mst.micro_sub_topic_name
+                  }))}
                   loading={microSubTopicsQ.isLoading}
-                  disabled={microSubTopicsTargetId <= 0}
+                  disabled={subTopicIdsForMicro.length === 0}
                   value={form.watch('micro_sub_topics')}
                   onChange={(ids) => form.setValue('micro_sub_topics', ids, { shouldValidate: true })}
                   error={form.formState.errors.micro_sub_topics?.message as string | undefined}
+                  hint="Liste, seçtiğiniz konulara göre API’den yüklenir."
                 />
               </div>
 

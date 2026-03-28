@@ -13,6 +13,8 @@ const { similar_question } = require("../../../use-case/manufacturer/similar_que
 const axios = require('axios');
 
 const openai = require('../../../config/openaiClient');
+const {client} = require('../../../config/redis');
+
 
 
 
@@ -68,7 +70,7 @@ exports.option_image_add = async (req, res, next) => {
 
 exports.subjects_get = async (req, res, next) => {
  try {
-    const result = await subjects_get(req.query, { manufacturer_repositoy })
+    const result = await subjects_get(req.query, { manufacturer_repositoy,client })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
@@ -111,11 +113,14 @@ exports.micro_sub_topics = async (req, res, next) => {
 
 exports.skill_types_get = async (req, res, next) => {
  try {
+ 
     const result = await skill_types_get(req.query, { manufacturer_repositoy })
     res.status(200).json({ result: result,success:true })
   } catch (err) {
     console.log(err)
+    next(err)
     res.status(400).json({ err: err.message })
+    
   }
 }
 
@@ -144,6 +149,7 @@ exports.mathpix_translate = async (req, res, next) => {
 
 exports.filtered_data = async (req, res, next) => {
  try {
+
     const result = await filtered_data(req.query, { manufacturer_repositoy,axios })
     res.status(200).json({ result: result,success:true })
   } catch (err) {

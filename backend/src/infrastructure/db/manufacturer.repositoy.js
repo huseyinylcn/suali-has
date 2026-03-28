@@ -139,6 +139,7 @@ exports.question_add = async (data) => {
 
 exports.subjects_get = async (data) => {
 
+
     try {
         const request = new sql.Request(pool());
 
@@ -147,7 +148,6 @@ exports.subjects_get = async (data) => {
 
 
     } catch (error) {
-        if (transaction) await transaction.rollback();
         throw error;
     }
 
@@ -165,7 +165,6 @@ exports.exam_types_get = async (data) => {
 
 
     } catch (error) {
-        if (transaction) await transaction.rollback();
         throw error;
     }
 
@@ -177,9 +176,22 @@ exports.sub_topics_get = async (data = {}) => {
     try {
         const request = new sql.Request(pool());
 
+        let subject_idStr = String(data.subject_id);
+       
+            try {
+                const subject_idArr = JSON.parse(subject_idStr)
+                subject_idStr = subject_idArr.join(',')
+            } catch (error) {
+                subject_idStr = data.subject_id
+            }
+        
+
+
+        
+
         const result = await request
-            .input('subject_id', sql.Int, data.subject_id || null)
-            .query(`SELECT * FROM sub_topics WHERE (@subject_id IS NULL OR subject_id = @subject_id)`)
+            .input('subject_id', sql.VarChar, subject_idStr || null)
+            .query(`SELECT * FROM sub_topics WHERE (@subject_id IS NULL OR subject_id in (SELECT value FROM STRING_SPLIT(@subject_id, ','))  )`)
         return result.recordset
 
 
@@ -195,9 +207,19 @@ exports.micro_sub_topics = async (data) => {
     try {
         const request = new sql.Request(pool());
 
+
+                let sub_topic_idStr = String(data.sub_topic_id);
+       
+            try {
+                const sub_topic_idArr = JSON.parse(sub_topic_idStr)
+                sub_topic_idStr = sub_topic_idArr.join(',')
+            } catch (error) {
+                sub_topic_idStr = data.subject_id
+            }
+
         const result = await request
-            .input('sub_topic_id', sql.Int, data.sub_topic_id || null)
-            .query(`SELECT * FROM micro_sub_topics WHERE (@sub_topic_id IS NULL OR sub_topic_id = @sub_topic_id)`)
+            .input('sub_topic_id', sql.VarChar, sub_topic_idStr || null)
+            .query(`SELECT * FROM micro_sub_topics WHERE (@sub_topic_id IS NULL OR sub_topic_id in  (SELECT value FROM STRING_SPLIT(@sub_topic_id, ','))  )`)
         return result.recordset
 
 
@@ -220,7 +242,6 @@ exports.skill_types_get = async (data) => {
 
 
     } catch (error) {
-        if (transaction) await transaction.rollback();
         throw error;
     }
 
@@ -238,7 +259,6 @@ exports.skill_types_get = async (data) => {
 
 
     } catch (error) {
-        if (transaction) await transaction.rollback();
         throw error;
     }
 
@@ -417,7 +437,7 @@ exports.similar_question = async (data) => {
         const questionArr = data.question_id
 
         const questionStr = questionArr.join(',')
-         
+
 
 
         const result = await request
@@ -470,7 +490,7 @@ exports.similar_question = async (data) => {
                 
                 `)
 
-            
+
         return result.recordset
 
 

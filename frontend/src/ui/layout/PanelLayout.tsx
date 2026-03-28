@@ -38,10 +38,6 @@ export function PanelLayout() {
             <GraduationCap className="h-5 w-5 text-[var(--gh-primary)]" />
             <span className="font-semibold leading-none">Suali-Has</span>
           </div>
-
-          <div className="ml-auto">
-            <ThemeToggle />
-          </div>
         </div>
       </header>
 
